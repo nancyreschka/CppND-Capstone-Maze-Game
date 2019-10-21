@@ -1,25 +1,24 @@
 #include <iostream>
 #include "controller.h"
 #include "game.h"
-#include "renderer.h"
-
-  constexpr std::size_t kFramesPerSecond{60};
-  constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
-  constexpr std::size_t kScreenWidth{640};
-  constexpr std::size_t kScreenHeight{640};
+#include "renderer.h"  
+#include "constants.h"
   
-  constexpr std::size_t kRows{16};
-  constexpr std::size_t kColums{16};
-  constexpr std::size_t kRoomWidth{kScreenWidth / kRows};
-
 int main() {
-  
-  Renderer renderer(kScreenWidth, kScreenHeight, kRows, kColums);
+  // read the size of the maze
+  int size;
+  std::cout << "Please enter the size of the maze. Should be a number between 6 and 64." << std::endl;
+  std::cin >> size;
+  while(size < 6 || size > 64) {
+    std::cout << "Please try again. It should be a number between 6 and 64." << std::endl;
+    std::cin >> size;
+  }
+
+  Renderer renderer(kScreenWidth, kScreenHeight, size, size);
   Controller controller;
-  Game game(kRows, kColums, kRoomWidth);
+  Game game(size, size, kScreenWidth / size);
   game.Run(controller, renderer, kMsPerFrame);  
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";
-  std::cout << "Size: " << game.GetSize() << "\n";
   return 0;
 }

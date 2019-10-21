@@ -4,8 +4,7 @@
 #include "maze.h"
 
 Game::Game(std::size_t rows, std::size_t colums, std::size_t roomWidth)
-    : snake(rows, colums),
-      player(rows, colums),
+    : player(rows, colums),
       maze(rows, colums, roomWidth),
       engine(dev()),
       random_w(0, static_cast<int>(colums)),
@@ -19,20 +18,22 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_start;
   Uint32 frame_end;
   Uint32 frame_duration;
-  Uint32 start_timestamp = SDL_GetTicks();
   int frame_count = 0;
   bool running = true;
 
+  // generate maze
   std::vector <Room> mazeGrid = maze.getMazeGrid();
+  // initialize start time of game
+  startTimestamp = SDL_GetTicks();
 
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake, player, maze);
-    Update();
+    controller.HandleInput(running, player, maze);
+    Update(renderer);
     
-    renderer.Render(snake, player, food, mazeGrid);
+    renderer.Render(player, food, mazeGrid);
 
     frame_end = SDL_GetTicks();
 
@@ -43,7 +44,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count, (SDL_GetTicks() - start_timestamp) / 1000);
+      renderer.UpdateWindowTitle(score, (SDL_GetTicks() - startTimestamp) / 1000);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -64,32 +65,32 @@ void Game::PlaceFood() {
     y = random_h(engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
-    if (!snake.SnakeCell(x, y)) {
+    if (!player.PlayerCell(x, y)) {
       food.x = x;
       food.y = y;
-      return;
+    return;
     }
   }
 }
 
-void Game::Update() {
-  if (!snake.alive) return;
+void Game::Update(Renderer &renderer) {
+  if (renderer.isFinished()) return;
 
-  snake.Update();
   player.Update();
 
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
+  int new_x = static_cast<int>(player.head_x);
+  int new_y = static_cast<int>(player.head_y);
 
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y) {
     score++;
     PlaceFood();
-    // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
+  }
+
+  // check if goal was reached
+  if(new_x == maze.getRows() - 1 && new_y == maze.getColums() - 1) {
+    renderer.setFinished();
   }
 }
 
 int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }

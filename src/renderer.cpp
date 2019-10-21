@@ -8,7 +8,8 @@ Renderer::Renderer(const std::size_t screen_width,
     : screen_width(screen_width),
       screen_height(screen_height),
       grid_width(grid_width),
-      grid_height(grid_height) {
+      grid_height(grid_height),
+      finished(false) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -16,7 +17,7 @@ Renderer::Renderer(const std::size_t screen_width,
   }
 
   // Create Window
-  sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
+  sdl_window = SDL_CreateWindow("Maze Game", SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, screen_width,
                                 screen_height, SDL_WINDOW_SHOWN);
 
@@ -38,7 +39,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, Player const player, SDL_Point const &food, std::vector <Room> mazeGrid) {
+void Renderer::Render(Player const player, SDL_Point const &food, std::vector <Room> mazeGrid) {
   SDL_Rect block;
   block.w = (screen_width / grid_width);
   block.h = (screen_height / grid_height);
@@ -49,6 +50,12 @@ void Renderer::Render(Snake const snake, Player const player, SDL_Point const &f
 
   // Render Maze
   renderMaze(sdl_renderer, mazeGrid);
+
+  // Render food
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+  block.x = food.x * block.w;
+  block.y = food.y * block.h;
+  SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render player
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
@@ -66,9 +73,11 @@ void Renderer::Render(Snake const snake, Player const player, SDL_Point const &f
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps, Uint32 timeDuration) {
-  std::string title{"Maze Score: " + std::to_string(score) + " FPS: " + std::to_string(fps) + " Time: " + std::to_string(timeDuration)};
-  SDL_SetWindowTitle(sdl_window, title.c_str());
+void Renderer::UpdateWindowTitle(int score, Uint32 timeDuration) {
+  if(!finished) {
+    std::string title{"Maze Score: " + std::to_string(score) + " Time: " + std::to_string(timeDuration)};
+    SDL_SetWindowTitle(sdl_window, title.c_str());
+  }
 }
 
 void Renderer::renderMaze(SDL_Renderer* renderer, std::vector <Room> mazeGrid) {
@@ -102,4 +111,12 @@ void Renderer::renderMaze(SDL_Renderer* renderer, std::vector <Room> mazeGrid) {
                         xCoord, yCoord + mazeGrid[i].getRoomWidth());
     }
   }
+}
+
+void Renderer::setFinished() {
+  finished = true;
+}
+
+bool Renderer::isFinished() {
+  return finished;
 }
