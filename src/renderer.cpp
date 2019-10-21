@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, Player const player, SDL_Point const &food) {
+void Renderer::Render(Snake const snake, Player const player, SDL_Point const &food, std::vector <Room> mazeGrid) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -52,6 +52,9 @@ void Renderer::Render(Snake const snake, Player const player, SDL_Point const &f
   // block.x = food.x * block.w;
   // block.y = food.y * block.h;
   // SDL_RenderFillRect(sdl_renderer, &block);
+
+  // Render Maize
+  renderMaze(sdl_renderer, mazeGrid);
 
   // Render player
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
@@ -84,4 +87,41 @@ void Renderer::Render(Snake const snake, Player const player, SDL_Point const &f
 void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
+}
+
+void Renderer::renderMaze(SDL_Renderer* renderer, std::vector <Room> mazeGrid) {
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+  for (Uint32 i = 0; i < mazeGrid.size(); i++) {
+    if (!mazeGrid[i].isVisited()) {
+      SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    } else {
+      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    }
+    SDL_Rect rect{mazeGrid[i].getX() * grid_width, mazeGrid[i].getY() * grid_width, grid_width, grid_width};
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      
+    int xCoord = mazeGrid[i].getX() * mazeGrid[i].getRoomWidth();
+    int yCoord = mazeGrid[i].getY() * mazeGrid[i].getRoomWidth();
+    if (mazeGrid[i].getWall(0)) {
+      SDL_RenderDrawLine(renderer, 
+                        xCoord, yCoord, 
+                        xCoord + mazeGrid[i].getRoomWidth(), yCoord);
+    }
+    if (mazeGrid[i].getWall(1)) {
+      SDL_RenderDrawLine(renderer, 
+                        xCoord + mazeGrid[i].getRoomWidth(), yCoord, 
+                        xCoord + mazeGrid[i].getRoomWidth(), yCoord + mazeGrid[i].getRoomWidth());
+    }
+    if (mazeGrid[i].getWall(2)) {
+      SDL_RenderDrawLine(renderer, 
+                        xCoord, yCoord + mazeGrid[i].getRoomWidth(), 
+                        xCoord + mazeGrid[i].getRoomWidth(), yCoord + mazeGrid[i].getRoomWidth());
+    }
+    if (mazeGrid[i].getWall(3)) {
+      SDL_RenderDrawLine(renderer, 
+                        xCoord, yCoord, 
+                        xCoord, yCoord + mazeGrid[i].getRoomWidth());
+    }
+  }
 }

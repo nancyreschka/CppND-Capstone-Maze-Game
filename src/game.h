@@ -7,10 +7,12 @@
 #include "renderer.h"
 #include "snake.h"
 #include "player.h"
+#include "room.h"
+#include "maze.h"
 
 class Game {
  public:
-  Game(std::size_t grid_width, std::size_t grid_height);
+  Game(std::size_t grid_width, std::size_t grid_height, std::size_t rows, std::size_t colums, std::size_t roomWidth);
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
@@ -20,6 +22,7 @@ class Game {
   Snake snake;
   Player player;
   SDL_Point food;
+  Maze maze;
 
   std::random_device dev;
   std::mt19937 engine;

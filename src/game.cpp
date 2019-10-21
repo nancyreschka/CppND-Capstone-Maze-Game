@@ -1,10 +1,12 @@
 #include "game.h"
 #include <iostream>
 #include "SDL.h"
+#include "maze.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
+Game::Game(std::size_t grid_width, std::size_t grid_height, std::size_t rows, std::size_t colums, std::size_t roomWidth)
     : snake(grid_width, grid_height),
       player(grid_width, grid_height),
+      maze(rows, colums, roomWidth),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width)),
       random_h(0, static_cast<int>(grid_height)) {
@@ -20,13 +22,15 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
+  std::vector <Room> mazeGrid = maze.getMazeGrid();
+
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake, player);
     Update();
-    renderer.Render(snake, player, food);
+    renderer.Render(snake, player, food, mazeGrid);
 
     frame_end = SDL_GetTicks();
 
