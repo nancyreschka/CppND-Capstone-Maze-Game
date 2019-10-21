@@ -2,29 +2,19 @@
 #include <cmath>
 #include <iostream>
 
-void Player::Update() {
-  // SDL_Point prev_cell{
-  //     static_cast<int>(head_x),
-  //     static_cast<int>(
-  //         head_y)};  // We first capture the head's cell before updating.
-  UpdateHead();
-  // SDL_Point current_cell{
-  //     static_cast<int>(head_x),
-  //     static_cast<int>(head_y)};  // Capture the head's cell after updating.
-
-  
-  // Update all of the body vector items if the snake head has moved to a new
-  // cell.
-  // if (current_cell.x != prev_cell.x || current_cell.y != prev_cell.y) {
-  //   UpdateBody(current_cell, prev_cell);
-  // }
-}
+Player::Player(int grid_width, int grid_height) : grid_width(grid_width),
+        grid_height(grid_height),
+        head_x(0.0),
+        head_y(0.0),
+        direction(Direction::kUp),
+        speed(1.0f), 
+        directionUpdate(false) {}
 
 void Player::directionUpdated(){
   directionUpdate = true;
 }
 
-void Player::UpdateHead() {
+void Player::Update() {
   if(directionUpdate){
     switch (direction) {
       case Direction::kUp:
@@ -44,15 +34,12 @@ void Player::UpdateHead() {
         break;
     }
     directionUpdate = false;
-    // Wrap the Snake around to the beginning if going off of the screen.
-  head_x = fmod(head_x + grid_width, grid_width);
-  head_y = fmod(head_y + grid_height, grid_height);
   }  
 }
 
-// Inefficient method to check if cell is occupied by snake.
+// Inefficient method to check if cell is occupied by player.
 bool Player::PlayerCell(int x, int y) {
-  if (x == static_cast<int>(head_x) && y == static_cast<int>(head_y)) {
+  if (head_x == static_cast<int>(x) && head_y == static_cast<int>(y)) {
     return true;
   }
 

@@ -6,14 +6,16 @@
 
 class Room {
   public: 
+    // receives the position x and y and the romm width
     Room(int i, int j, int rw);
+    // remove all walls
     void removeWalls(Room &r);
+    // remove the given wall
     void removeWall(int wall);
     void printWalls();
+    // mark room as visited
     void visit();
 
-    //TODO do I need this?
-    int getPositionInVector(int size);
     int getX();
     int getY();
     bool isVisited();

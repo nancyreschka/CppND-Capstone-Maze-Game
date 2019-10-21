@@ -7,16 +7,18 @@
 int main() {
   // read the size of the maze
   int size;
-  std::cout << "Please enter the size of the maze. Should be a number between 6 and 64." << std::endl;
+  std::cout << "Please enter the size of the maze. Should be a number between " << kMinMazeSize << " and " << kMaxMazeSize << "." << std::endl;
   std::cin >> size;
-  while(size < 6 || size > 64) {
-    std::cout << "Please try again. It should be a number between 6 and 64." << std::endl;
+  while(size < kMinMazeSize || size > kMaxMazeSize) {
+    std::cout << "Please try again. It should be a number between " << kMinMazeSize << " and " << kMaxMazeSize << "." << std::endl;
     std::cin >> size;
   }
+  // calculate box size
+  int roomSize = kScreenWidth / size;
 
-  Renderer renderer(kScreenWidth, kScreenHeight, size, size);
+  Renderer renderer(size * roomSize, size * roomSize, size, size);
   Controller controller;
-  Game game(size, size, kScreenWidth / size);
+  Game game(size, size, roomSize);
   game.Run(controller, renderer, kMsPerFrame);  
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";

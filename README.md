@@ -1,12 +1,8 @@
-# CPPND: Capstone Snake Game Example
+# CPPND: Capstone Maze Game Example
 
-This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
+The starter repo for this Capstone project in the [Udacity C++ Nanodegree Program - CPPND: Capstone Snake Game Example](https://github.com/udacity/CppND-Capstone-Snake-Game). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses, and also https://github.com/alinp25/MazeGenerator.
 
-<img src="snake_game.gif"/>
-
-The Capstone Project gives you a chance to integrate what you've learned throughout this program. This project will become an important part of your portfolio to share with current and future colleagues and employers.
-
-In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
+This is a maze game where the player (in yellow) can walk (using the up, left, right, down keys) toward the goal (in blue). The player cannot cross borders. The player can make scores while eating some food (in red) on it's way to the goal. At the beginning of the game the player can choose the size of the maze. The maze is always a quadratic maze. The food is randomly created.
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -29,3 +25,12 @@ In this project, you can build your own C++ application or extend this Snake gam
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
+
+## Adressed Rubric points
+
+* Loops, Functions, I/O - The project demonstrates an understanding of C++ functions and control structures.: for loops i.e. maze.cpp line 45-50, while-loops i.e. maze.cpp line 56
+* Loops, Functions, I/O - The project accepts user input and processes the input.: main.cpp line 9-15
+* Object Oriented Programming - The project uses Object Oriented Programming techniques.
+* Object Oriented Programming - Classes use appropriate access specifiers for class members.
+* Object Oriented Programming - Class constructors utilize member initialization lists.
+* Object Oriented Programming - Classes encapsulate behavior.

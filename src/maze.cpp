@@ -33,7 +33,7 @@ int Maze::checkNeighbours(std::vector <Room> maze, Room r) {
 }
 
 void Maze::printMaze(std::vector < Room > mazeGrid) {
-  for(int i=0; i<mazeGrid.size();i++) {
+  for(int i = 0; i < mazeGrid.size(); i++) {
     std::cout << "x:" << mazeGrid[i].getX() << " y:" << mazeGrid[i].getY() << " visited:" << mazeGrid[i].isVisited() << std::endl;
     mazeGrid[i].printWalls();
   }
@@ -42,6 +42,7 @@ void Maze::printMaze(std::vector < Room > mazeGrid) {
 void Maze::generateMazeGrid() {
   std::stack <Room*> roomStack;
 
+  // initialize all rooms
   for (int i = 0; i < kRows; i++) {
     for (int j = 0; j < kColums; j++) {
       Room newRoom(i, j, kRoomWidth);
@@ -49,6 +50,7 @@ void Maze::generateMazeGrid() {
     }
   }
 
+  // start at position (0,0)
   Room *current = &mazeGrid[0]; 
   current->visit(); 
 

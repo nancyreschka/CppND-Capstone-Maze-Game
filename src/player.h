@@ -8,32 +8,23 @@ class Player {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Player(int grid_width, int grid_height)
-      : grid_width(grid_width),
-        grid_height(grid_height),
-        head_x(0.0),
-        head_y(0.0) {
-          directionUpdate = false;
-        }
-
+  Player(int grid_width, int grid_height);
+  // update the position of the player
   void Update();
-
+  // indicates if the player changed it's position
   void directionUpdated();
-
-  void GrowBody();
+  // check if cell is occupied by player
   bool PlayerCell(int x, int y);
 
-  Direction direction = Direction::kUp;
+  Direction direction;
 
-  // TODO do I need this?
-  float speed{1.0f};
-  int size{1};
-  bool alive{true};
+  // the amount of change for the position
+  float speed;
+  // coordinates of the player
   float head_x;
   float head_y;
 
  private:
-  void UpdateHead();
 
   int grid_width;
   int grid_height;

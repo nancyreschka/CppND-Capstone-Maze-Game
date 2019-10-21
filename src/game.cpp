@@ -8,7 +8,8 @@ Game::Game(std::size_t rows, std::size_t colums, std::size_t roomWidth)
       maze(rows, colums, roomWidth),
       engine(dev()),
       random_w(0, static_cast<int>(colums)),
-      random_h(0, static_cast<int>(rows)) {
+      random_h(0, static_cast<int>(rows)),
+      score(0) {
   PlaceFood();
 }
 
@@ -63,12 +64,12 @@ void Game::PlaceFood() {
   while (true) {
     x = random_w(engine);
     y = random_h(engine);
-    // Check that the location is not occupied by a snake item before placing
+    // Check that the location is not occupied by the player before placing
     // food.
     if (!player.PlayerCell(x, y)) {
       food.x = x;
       food.y = y;
-    return;
+      return;
     }
   }
 }
@@ -87,7 +88,7 @@ void Game::Update(Renderer &renderer) {
     PlaceFood();
   }
 
-  // check if goal was reached
+  // check if goal was reached -  the goal is always in the right down corner
   if(new_x == maze.getRows() - 1 && new_y == maze.getColums() - 1) {
     renderer.setFinished();
   }

@@ -47,10 +47,6 @@ void Room::visit() {
   this->visited = true;
 }
 
-int Room::getPositionInVector(int size) {
-  return this->x * size + this->y;
-}
-
 int Room::getX() {
   return this->x;
 }

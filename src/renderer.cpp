@@ -84,7 +84,7 @@ void Renderer::renderMaze(SDL_Renderer* renderer, std::vector <Room> mazeGrid) {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   for (Uint32 i = 0; i < mazeGrid.size(); i++) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_Rect rect{mazeGrid[i].getX() * (screen_width / grid_width), mazeGrid[i].getY() * (screen_width / grid_width), (screen_width / grid_width), (screen_width / grid_width)};
+    SDL_Rect rect{mazeGrid[i].getX() * mazeGrid[i].getRoomWidth(), mazeGrid[i].getY() * mazeGrid[i].getRoomWidth(), mazeGrid[i].getRoomWidth(), mazeGrid[i].getRoomWidth()};
     SDL_RenderFillRect(renderer, &rect);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
       
