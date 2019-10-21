@@ -14,7 +14,7 @@ class Renderer {
   ~Renderer();
 
   void Render(Snake const snake, Player const player, SDL_Point const &food, std::vector <Room> mazeGrid);
-  void UpdateWindowTitle(int score, int fps);
+  void UpdateWindowTitle(int score, int fps, Uint32 timeDuration);
 
  private:
   SDL_Window *sdl_window;

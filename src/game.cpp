@@ -3,13 +3,13 @@
 #include "SDL.h"
 #include "maze.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height, std::size_t rows, std::size_t colums, std::size_t roomWidth)
-    : snake(grid_width, grid_height),
-      player(grid_width, grid_height),
+Game::Game(std::size_t rows, std::size_t colums, std::size_t roomWidth)
+    : snake(rows, colums),
+      player(rows, colums),
       maze(rows, colums, roomWidth),
       engine(dev()),
-      random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height)) {
+      random_w(0, static_cast<int>(colums)),
+      random_h(0, static_cast<int>(rows)) {
   PlaceFood();
 }
 
@@ -19,6 +19,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_start;
   Uint32 frame_end;
   Uint32 frame_duration;
+  Uint32 start_timestamp = SDL_GetTicks();
   int frame_count = 0;
   bool running = true;
 
@@ -42,7 +43,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(score, frame_count, (SDL_GetTicks() - start_timestamp) / 1000);
       frame_count = 0;
       title_timestamp = frame_end;
     }

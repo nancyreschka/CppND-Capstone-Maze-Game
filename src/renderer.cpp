@@ -47,12 +47,6 @@ void Renderer::Render(Snake const snake, Player const player, SDL_Point const &f
   SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
 
-  // // Render food
-  // SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
-  // block.x = food.x * block.w;
-  // block.y = food.y * block.h;
-  // SDL_RenderFillRect(sdl_renderer, &block);
-
   // Render Maze
   renderMaze(sdl_renderer, mazeGrid);
 
@@ -62,46 +56,26 @@ void Renderer::Render(Snake const snake, Player const player, SDL_Point const &f
   block.y = (player.head_y * block.h);
   SDL_RenderFillRect(sdl_renderer, &block);
 
-  // // Render snake's body
-  // SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  // for (SDL_Point const &point : snake.body) {
-  //   block.x = point.x * block.w;
-  //   block.y = point.y * block.h;
-  //   SDL_RenderFillRect(sdl_renderer, &block);
-  // }
-
-  // // Render snake's head
-  // block.x = static_cast<int>(snake.head_x) * block.w;
-  // block.y = static_cast<int>(snake.head_y) * block.h;
-  // if (snake.alive) {
-  //   SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
-  // } else {
-  //   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
-  // }
-  // SDL_RenderFillRect(sdl_renderer, &block);
+  // Render the goal
+  SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
+  block.x = screen_width - block.w;
+  block.y = screen_height - block.h;
+  SDL_RenderFillRect(sdl_renderer, &block);
 
   // Update Screen
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(int score, int fps, Uint32 timeDuration) {
+  std::string title{"Maze Score: " + std::to_string(score) + " FPS: " + std::to_string(fps) + " Time: " + std::to_string(timeDuration)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
 
 void Renderer::renderMaze(SDL_Renderer* renderer, std::vector <Room> mazeGrid) {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
   for (Uint32 i = 0; i < mazeGrid.size(); i++) {
-    if (!mazeGrid[i].isVisited()) {
-      SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    } else {
-      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    }
-    if (i == 32)
-    {
-      SDL_SetRenderDrawColor(renderer, 0x00, 0x7A, 0xCC, 0xFF);
-    }
-    SDL_Rect rect{mazeGrid[i].getX() * grid_width, mazeGrid[i].getY() * grid_width, grid_width, grid_width};
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_Rect rect{mazeGrid[i].getX() * (screen_width / grid_width), mazeGrid[i].getY() * (screen_width / grid_width), (screen_width / grid_width), (screen_width / grid_width)};
     SDL_RenderFillRect(renderer, &rect);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
       

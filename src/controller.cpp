@@ -13,7 +13,7 @@ void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
 
 void Controller::ChangeDirection(Player &player, Player::Direction input, Maze &maze) const {
   // calculate room number where player is currently located
-  int roomNumber = (player.head_x * 32) + player.head_y;
+  int roomNumber = (player.head_x * maze.getRows()) + player.head_y;
 
   // check if there is no wall in the requested direction
   if((input == Player::Direction::kUp && !maze.getMazeGrid()[roomNumber].getWall(0)) ||

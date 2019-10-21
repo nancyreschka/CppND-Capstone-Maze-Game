@@ -5,7 +5,6 @@
 
 Maze::Maze(std::size_t rows, std::size_t colums, std::size_t roomWidth):kRows(rows), kColums(colums), kRoomWidth(roomWidth) {
     generateMazeGrid();
-    printMaze(mazeGrid);
 }
 
 int Maze::checkNeighbours(std::vector <Room> maze, Room r) {
@@ -77,8 +76,6 @@ void Maze::generateMazeGrid() {
       break;
     }
   }
-
-  printMaze(mazeGrid);
 }
 
 std::vector <Room> Maze::getMazeGrid() {
