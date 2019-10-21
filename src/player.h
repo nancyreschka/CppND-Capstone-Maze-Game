@@ -11,8 +11,8 @@ class Player {
   Player(int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {
+        head_x(0.0),
+        head_y(0.0) {
           directionUpdate = false;
         }
 
@@ -25,6 +25,7 @@ class Player {
 
   Direction direction = Direction::kUp;
 
+  // TODO do I need this?
   float speed{1.0f};
   int size{1};
   bool alive{true};
