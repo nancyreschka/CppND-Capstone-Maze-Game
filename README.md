@@ -24,7 +24,7 @@ This is a maze game where the player (in yellow) can walk (using the up, left, r
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./SnakeGame`.
+4. Run it: `./MazeGame`.
 
 ## Adressed Rubric points
 
