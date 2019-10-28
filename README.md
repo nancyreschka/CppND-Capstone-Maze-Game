@@ -4,6 +4,8 @@ The starter repo for this Capstone project in the [Udacity C++ Nanodegree Progra
 
 This is a maze game where the player (in yellow) can walk (using the up, left, right, down keys) toward the goal (in blue). The player cannot cross borders. The player can make scores while eating some food (in red) on it's way to the goal. At the beginning of the game the player can choose the size of the maze. The maze is always a quadratic maze. The food is randomly created.
 
+<img src="images/maze.png"/>
+
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
